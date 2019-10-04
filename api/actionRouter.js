@@ -23,6 +23,8 @@ router.get('/:id', middleware.validateId, (req, res) => {
   res.status(200).json(req.actions);
 });
 
+
+// PUT /api/actions update an action
 router.put('/:id', middleware.validateAction, (req, res) => {
   const { id } = req.params;
   
@@ -40,6 +42,7 @@ router.put('/:id', middleware.validateAction, (req, res) => {
     });
 });
 
+//DELETE /api/actions delete an action
 router.delete('/id', middleware.validateId, (req, res) => {
   const { id } = req.params;
 

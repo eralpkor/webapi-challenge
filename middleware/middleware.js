@@ -32,8 +32,22 @@ function validateAction(req, res, next) {
   }
 }
 
+function validatePost(req, res, next) {
+  const { description, name } = req.body;
+
+  if (!req.body) {
+    return res.status(400).json({ error: "Please enter something..."});
+  }
+  if (!description || !name) {
+    return res.status(400).json({ error: "Please enter something..."});    
+  }
+  req.body = {description,  name };
+  next();
+}
+
 module.exports = {
   validateId,
   logger,
-  validateAction
+  validateAction,
+  validatePost
 }
