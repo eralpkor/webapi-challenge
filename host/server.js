@@ -7,11 +7,14 @@ const projectRouter = require('../api/projectRouter.js');
 
 const server = express();
 
-server.use(express.json());
+
 server.use(helmet());
 server.use(logger);
+server.use(express.json());
+
 server.use(cors());
 
+server.use('/api/actions', actionRouter);
 
 server.get('/', (req, res) => {
   res.send('<h2>WebAPI Challenge</h2>');
