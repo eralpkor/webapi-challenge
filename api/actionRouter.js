@@ -3,6 +3,7 @@ const middleware = require('../middleware/middleware.js');
 const Actions = require('../data/helpers/actionModel.js');
 const chalk = require('chalk');
 
+const { validateAction, validateId } = middleware;
 
 // GET /api/actions to retrieve actions
 router.get('/', (req, res) => {
@@ -21,13 +22,13 @@ router.get('/', (req, res) => {
 });
 
 // GET by id /api/actions
-router.get('/:id', middleware.validateId, (req, res) => {
+router.get('/:id', validateId, (req, res) => {
   res.status(200).json(req.actions);
 });
 
 
 // PUT /api/actions update an action
-router.put('/:id', middleware.validateAction, (req, res) => {
+router.put('/:id', validateAction, (req, res) => {
   const { id } = req.params;
   
   Actions.update(id, req.body)
@@ -45,7 +46,7 @@ router.put('/:id', middleware.validateAction, (req, res) => {
 });
 
 //DELETE /api/actions delete an action
-router.delete('/id', middleware.validateId, (req, res) => {
+router.delete('/id', validateId, (req, res) => {
   const { id } = req.params;
 
   Actions.remove(id)
