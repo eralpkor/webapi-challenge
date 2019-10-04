@@ -2,6 +2,7 @@ const router = require('express').Router();
 const middleware = require('../middleware/middleware.js');
 const Actions = require('../data/helpers/actionModel.js');
 
+// GET /api/actions to retrieve actions
 router.get('/', (req, res) => {
   Actions.get()
     .then(actions => {
@@ -17,21 +18,37 @@ router.get('/', (req, res) => {
     });
 });
 
+// GET by id /api/actions
 router.get('/:id', middleware.validateId, (req, res) => {
-  // const { id } = req.params;
+  res.status(200).json(req.actions);
+});
 
-  // Actions.get(id)
-  //   .then(actions => {
-  //     if (id) {
-        res.status(200).json(req.actions);
-//       } else {
-//         res.status(404).json({ message: `Action with ID ${id} not found...`})
-//       }
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       res.status(500).json({error: "Cannot perform actions, server error..."})
-//     })
-})
+router.put('/:id', middleware.validateAction, (req, res) => {
+  const { id } = req.params;
+  
+  Actions.update(id, req.body)
+    .then(updateAction => {
+      if (updateAction) {
+          res.status(200).json(updateAction)
+      } else {
+        res.status(400).json({error: `Error getting action ID ${id}`})
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({error: `Error getting action ID ${id}`});
+    });
+});
+
+router.delete('/id', middleware.validateId, (req, res) => {
+  const { id } = req.params;
+
+  Actions.remove(id)
+    .then(() => res.status(204).end())
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({error: `Error deleting action with ${id}`})
+    })
+});
 
 module.exports = router;

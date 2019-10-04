@@ -1,4 +1,5 @@
 const express = require('express');
+const middleware = require('../middleware/middleware.js');
 const helmet = require('helmet');
 const cors = require('cors');
 
@@ -7,9 +8,8 @@ const projectRouter = require('../api/projectRouter.js');
 
 const server = express();
 
-
+server.use(middleware.logger);
 server.use(helmet());
-server.use(logger);
 server.use(express.json());
 
 server.use(cors());
@@ -21,13 +21,5 @@ server.get('/', (req, res) => {
 });
 
 
-
-
-
-function logger(req, res, next){
-  const now = new Date().toISOString();
-  console.log(`\nMethod: ${req.method}, \nURL: ${req.url}, \n Time: ${now}`);
-  next();
-}
 
 module.exports = server;
