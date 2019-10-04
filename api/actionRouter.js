@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const middleware = require('../middleware/middleware.js');
 const Actions = require('../data/helpers/actionModel.js');
+const chalk = require('chalk');
+
 
 // GET /api/actions to retrieve actions
 router.get('/', (req, res) => {
@@ -13,7 +15,7 @@ router.get('/', (req, res) => {
       }
     })
     .catch(err => {
-      console.log(err);
+      console.log(chalk.red(err));
       res.status(500).json({error: "Cannot retrieve actions..."});
     });
 });
@@ -37,7 +39,7 @@ router.put('/:id', middleware.validateAction, (req, res) => {
       }
     })
     .catch(err => {
-      console.log(err);
+      console.log(chalk.red(err));
       res.status(500).json({error: `Error getting action ID ${id}`});
     });
 });
@@ -49,7 +51,7 @@ router.delete('/id', middleware.validateId, (req, res) => {
   Actions.remove(id)
     .then(() => res.status(204).end())
     .catch(err => {
-      console.log(err);
+      console.log(chalk.red(err));
       res.status(500).json({error: `Error deleting action with ${id}`})
     })
 });

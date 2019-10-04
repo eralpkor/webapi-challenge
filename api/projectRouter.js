@@ -2,13 +2,14 @@ const router = require('express').Router();
 const middleware = require('../middleware/middleware.js');
 const Projects = require('../data/helpers/projectModel.js');
 const Actions = require('../data/helpers/actionModel.js');
+const chalk = require('chalk')
 
 // GET all projects from /api/projects
 router.get('/', (req, res) => {
   Projects.get()
     .then(projects => res.status(200).json(projects))
     .catch(err => {
-      console.log(err);
+      console.log(chalk.red(err));
       res.status(500).json({error: "Error retrieving the projects..."});
     });
 });
@@ -19,7 +20,7 @@ router.post('/', middleware.validatePost, (req, res) => {
   Projects.insert(req.body)
     .then(user => res.status(201).json(user))
     .catch(err => {
-      console.log(err);
+      console.log(chalk.red(err));
       res.status(500).json({error: "Error adding the project..."})
     });
 });
@@ -35,7 +36,7 @@ router.put('/:id', middleware.validateId, (req, res) => {
         Projects.get(id)
           .then(pro => res.status(200).json(pro))
           .catch(err => {
-            console.log(err);
+            console.log(chalk.red(err));
             res.status(500).json({error: `Error getting project`})
           })
       }
@@ -59,7 +60,7 @@ router.delete('/:id', (req, res) => {
       }
     })
     .catch(err => {
-      console.log(err);
+      console.log(chalk.red(err));
       res.status(500).json({ error: `Error deleting project...`})
     })
 });
@@ -77,7 +78,7 @@ router.get('/:id/actions', (req, res) => {
       }
   })
   .catch(err => {
-      console.log(err)
+      console.log(chalk.red(err))
       res.status(500).json({ error: "There was an error trying to retrieve the projects from the database." })
   });
 });
@@ -98,7 +99,7 @@ router.post('/:id/actions', middleware.validateAction, (req, res) => {
             }
           })
           .catch(err => {
-            console.log(err);
+            console.log(chalk.red(err));
             res.status(500).json({message: 'Error adding the action for the project' })
           })
       } else {
@@ -106,7 +107,7 @@ router.post('/:id/actions', middleware.validateAction, (req, res) => {
       }
     })
     .catch(err => {
-      console.log(err);
+      console.log(chalk.red(err));
       res.status(500).json({ message: 'Error getting the actions for the project' });
     });
 });
