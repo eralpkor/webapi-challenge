@@ -26,13 +26,26 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ] Mention two parts of Express that you learned about this week.
 
+* Express is Node.js web application framework that can help setup web server very easy.
+* Some of the functionality includes middleware and routing.
+
 - [ ] Describe Middleware?
+
+* Middleware is array of functions or third party application that gives us access to 
+* `request` and `respond` in the servers request response cycle.
 
 - [ ] Describe a Resource?
 
+* Is any thing digital, text, HTML, images basically it's the content.
+
 - [ ] What can the API return to help clients know if a request was successful?
 
+* Success 200 - 299.
+
 - [ ] How can we partition our application into sub-applications?
+
+* Creating directories and middleware. Creating  routing to partition your 
+* application in several different endpoint routes pulling from selected databases. 
 
 ## Project Setup
 
