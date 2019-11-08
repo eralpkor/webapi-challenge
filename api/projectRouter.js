@@ -2,7 +2,9 @@ const router = require('express').Router();
 const middleware = require('../middleware/middleware.js');
 const Projects = require('../data/helpers/projectModel.js');
 const Actions = require('../data/helpers/actionModel.js');
-const chalk = require('chalk')
+const chalk = require('chalk');
+
+const { validatePost, validateId, validateAction } = middleware;
 
 // GET all projects from /api/projects
 router.get('/', (req, res) => {
@@ -15,7 +17,7 @@ router.get('/', (req, res) => {
 });
 
 // POST /api/projects to create new project
-router.post('/', middleware.validatePost, (req, res) => {
+router.post('/', validatePost, (req, res) => {
 
   Projects.insert(req.body)
     .then(user => res.status(201).json(user))
@@ -26,7 +28,7 @@ router.post('/', middleware.validatePost, (req, res) => {
 });
 
 // PUT /api/projects Update a project...
-router.put('/:id', middleware.validateId, (req, res) => {
+router.put('/:id', validateId, (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
 
@@ -84,7 +86,7 @@ router.get('/:id/actions', (req, res) => {
 });
 
 // POST /api/projects/:id/actions Create new action
-router.post('/:id/actions', middleware.validateAction, (req, res) => {
+router.post('/:id/actions', validateAction, (req, res) => {
   const actionInfo = { ...req.body, project_id: req.params.id };
 
   Projects.getProjectActions(req.params.id)
